@@ -1,5 +1,6 @@
 package vista;
 
+import dao.PedidoDAO;
 import modelo.Pedido;
 
 import javax.swing.JFrame;
@@ -9,23 +10,15 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import java.awt.GridLayout;
-import java.util.List;
 
 public class VentanaRegistroPedido extends JFrame {
 
-    private List<Pedido> pedidos;
-
-    public VentanaRegistroPedido(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-
+    public VentanaRegistroPedido() {
         setTitle("SpeedFast - Registrar Pedido");
-        setSize(350, 250);
+        setSize(350, 220);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(4, 2, 10, 10));
-
-        JLabel labelId = new JLabel("ID Pedido:");
-        JTextField campoId = new JTextField();
+        setLayout(new GridLayout(3, 2, 10, 10));
 
         JLabel labelDireccion = new JLabel("Direccion:");
         JTextField campoDireccion = new JTextField();
@@ -36,8 +29,6 @@ public class VentanaRegistroPedido extends JFrame {
 
         JButton botonGuardar = new JButton("Guardar");
 
-        add(labelId);
-        add(campoId);
         add(labelDireccion);
         add(campoDireccion);
         add(labelTipo);
@@ -46,25 +37,20 @@ public class VentanaRegistroPedido extends JFrame {
         add(botonGuardar);
 
         botonGuardar.addActionListener(e -> {
-            String textoId = campoId.getText();
             String direccion = campoDireccion.getText();
             String tipo = (String) comboTipo.getSelectedItem();
 
-            if (textoId.isEmpty() || direccion.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debes completar el ID y la direccion.");
+            if (direccion.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debes completar la direccion.");
                 return;
             }
 
-            try {
-                int id = Integer.parseInt(textoId);
-                Pedido nuevoPedido = new Pedido(id, direccion, tipo);
-                pedidos.add(nuevoPedido);
-                JOptionPane.showMessageDialog(this, "Pedido guardado correctamente.");
-                campoId.setText("");
-                campoDireccion.setText("");
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "El ID debe ser un numero.");
-            }
+            Pedido nuevoPedido = new Pedido(0, direccion, tipo);
+            PedidoDAO pedidoDAO = new PedidoDAO();
+            pedidoDAO.guardar(nuevoPedido);
+
+            JOptionPane.showMessageDialog(this, "Pedido guardado en la base de datos.");
+            campoDireccion.setText("");
         });
 
         setVisible(true);

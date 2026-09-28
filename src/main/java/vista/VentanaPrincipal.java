@@ -1,34 +1,31 @@
 package vista;
 
-import modelo.Pedido;
-
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.List;
 
 public class VentanaPrincipal extends JFrame {
 
-    private List<Pedido> pedidos = new ArrayList<>();
-
     public VentanaPrincipal() {
         setTitle("SpeedFast - Menu Principal");
-        setSize(400, 300);
+        setSize(400, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(3, 1, 10, 10));
+        setLayout(new GridLayout(4, 1, 10, 10));
 
         JButton botonRegistrar = new JButton("Registrar Pedido");
+        JButton botonRegistrarRepartidor = new JButton("Registrar Repartidor");
         JButton botonVerPedidos = new JButton("Ver Pedidos");
         JButton botonSalir = new JButton("Salir");
 
         add(botonRegistrar);
+        add(botonRegistrarRepartidor);
         add(botonVerPedidos);
         add(botonSalir);
 
-        botonRegistrar.addActionListener(e -> new VentanaRegistroPedido(pedidos));
-        botonVerPedidos.addActionListener(e -> new VentanaListaPedidos(pedidos));
+        botonRegistrar.addActionListener(e -> new VentanaRegistroPedido());
+        botonRegistrarRepartidor.addActionListener(e -> new VentanaRegistroRepartidor());
+        botonVerPedidos.addActionListener(e -> new VentanaListaPedidos());
         botonSalir.addActionListener(e -> System.exit(0));
 
         setVisible(true);

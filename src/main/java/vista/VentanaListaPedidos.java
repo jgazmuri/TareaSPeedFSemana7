@@ -1,5 +1,6 @@
 package vista;
 
+import dao.PedidoDAO;
 import modelo.Pedido;
 
 import javax.swing.JFrame;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class VentanaListaPedidos extends JFrame {
 
-    public VentanaListaPedidos(List<Pedido> pedidos) {
+    public VentanaListaPedidos() {
         setTitle("SpeedFast - Lista de Pedidos");
         setSize(500, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -18,6 +19,9 @@ public class VentanaListaPedidos extends JFrame {
 
         String[] columnas = {"ID", "Direccion", "Tipo", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        List<Pedido> pedidos = pedidoDAO.listarTodos();
 
         for (Pedido p : pedidos) {
             Object[] fila = {p.getId(), p.getDireccionEntrega(), p.getTipo(), p.getEstado()};
