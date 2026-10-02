@@ -14,24 +14,19 @@ public class RepartidorDAO {
     public List<Repartidor> listarTodos() {
         String sql = "SELECT * FROM repartidor";
         List<Repartidor> repartidores = new ArrayList<>();
-
         Connection conexion = null;
         PreparedStatement statement = null;
         ResultSet resultado = null;
-
         try {
             conexion = ConexionBD.conectar();
             statement = conexion.prepareStatement(sql);
             resultado = statement.executeQuery();
-
             while (resultado.next()) {
                 int id = resultado.getInt("id");
                 String nombre = resultado.getString("nombre");
-
                 Repartidor repartidor = new Repartidor(id, nombre);
                 repartidores.add(repartidor);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -43,24 +38,20 @@ public class RepartidorDAO {
             }
             ConexionBD.cerrarConexion(conexion);
         }
-
         return repartidores;
     }
 
-    public void guardar(Repartidor repartidor) {
+    public boolean guardar(Repartidor repartidor) {
         String sql = "INSERT INTO repartidor (nombre) VALUES (?)";
-
         Connection conexion = null;
         PreparedStatement statement = null;
-
+        boolean exito = false;
         try {
             conexion = ConexionBD.conectar();
             statement = conexion.prepareStatement(sql);
-
             statement.setString(1, repartidor.getNombre());
-
             statement.executeUpdate();
-
+            exito = true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -71,5 +62,6 @@ public class RepartidorDAO {
             }
             ConexionBD.cerrarConexion(conexion);
         }
+        return exito;
     }
 }

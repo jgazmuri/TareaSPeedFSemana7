@@ -12,7 +12,8 @@ import java.util.List;
 
 public class PedidoDAO {
 
-    public void guardar(Pedido pedido) {
+    public boolean guardar(Pedido pedido) {
+        boolean exito = false;
         String sql = "INSERT INTO pedido (direccion, tipo, estado) VALUES (?, ?, ?)";
 
         Connection conexion = null;
@@ -28,6 +29,8 @@ public class PedidoDAO {
 
             statement.executeUpdate();
 
+            exito = true;
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -40,6 +43,7 @@ public class PedidoDAO {
             ConexionBD.cerrarConexion(conexion);
 
         }
+        return exito;
     }
 
     public List<Pedido> listarTodos() {

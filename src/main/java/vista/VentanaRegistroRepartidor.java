@@ -39,10 +39,14 @@ public class VentanaRegistroRepartidor extends JFrame {
 
             Repartidor nuevoRepartidor = new Repartidor(0, nombre);
             RepartidorDAO repartidorDAO = new RepartidorDAO();
-            repartidorDAO.guardar(nuevoRepartidor);
+            boolean exito = repartidorDAO.guardar(nuevoRepartidor);
 
-            JOptionPane.showMessageDialog(this, "Repartidor guardado en la base de datos.");
-            campoNombre.setText("");
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Repartidor guardado en la base de datos.");
+                campoNombre.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: no se pudo guardar el repartidor.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         setVisible(true);

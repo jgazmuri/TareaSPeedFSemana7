@@ -10,23 +10,20 @@ import java.sql.Time;
 
 public class EntregaDAO {
 
-    public void guardar(Entrega entrega) {
+    public boolean guardar(Entrega entrega) {
         String sql = "INSERT INTO entrega (id_pedido, id_repartidor, fecha, hora) VALUES (?, ?, ?, ?)";
-
         Connection conexion = null;
         PreparedStatement statement = null;
-
+        boolean exito = false;
         try {
             conexion = ConexionBD.conectar();
             statement = conexion.prepareStatement(sql);
-
             statement.setInt(1, entrega.getPedido().getId());
             statement.setInt(2, entrega.getRepartidor().getId());
             statement.setDate(3, Date.valueOf(entrega.getFecha()));
             statement.setTime(4, Time.valueOf(entrega.getHora()));
-
             statement.executeUpdate();
-
+            exito = true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -37,5 +34,6 @@ public class EntregaDAO {
             }
             ConexionBD.cerrarConexion(conexion);
         }
+        return exito;
     }
 }

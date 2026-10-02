@@ -47,10 +47,14 @@ public class VentanaRegistroPedido extends JFrame {
 
             Pedido nuevoPedido = new Pedido(0, direccion, tipo);
             PedidoDAO pedidoDAO = new PedidoDAO();
-            pedidoDAO.guardar(nuevoPedido);
+            boolean exito = pedidoDAO.guardar(nuevoPedido);
 
-            JOptionPane.showMessageDialog(this, "Pedido guardado en la base de datos.");
-            campoDireccion.setText("");
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Pedido guardado en la base de datos.");
+                campoDireccion.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: no se pudo guardar el pedido.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         setVisible(true);
